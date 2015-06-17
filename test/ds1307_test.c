@@ -9,6 +9,15 @@ int main(void)
   // Initialize the I2C bus.
   i2c_init();
 
+  // Set the RAM.
+  char *set_data1 = "This is some data.";
+  ds1307_set_ram(0x00, (byte *) set_data1, 19);
+
+  // Get 0x00 in RAM.
+  char get_data1[19];
+  ds1307_get_ram(0x00, (byte *) get_data1, 19);
+  printf("RAM: %s\n", get_data1);
+
   // Create the time structure.
   struct tm set_time =
   {

@@ -81,79 +81,33 @@ struct tm ds1307_get_tm(void)
   return ret;
 }
 
+// ds1307_set_ram
+size_t ds1307_set_ram(byte address, byte *buffer, size_t length)
+{
+  // TODO: Bound checking.
 
+  i2c_start(DS1307_ID, I2C_WRITE);
+  i2c_write(address + 0x08);
+  size_t i;
+  for (i = 0; i < length; i++)
+    i2c_write(buffer[i]);
+  i2c_stop();
 
-// I2C Implementation
-// TODO: Move into avr.
-
-#define F_SCL 100000UL // SCL frequency
-#define Prescaler 1
-#define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
-
-void i2c_init(void){
-  TWBR = TWBR_val;
+  return i;
 }
 
-byte i2c_start(byte address, byte config){
-  // reset TWI control register
-  TWCR = 0;
-  // transmit START condition
-  TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-  // wait for end of transmission
-  while( !(TWCR & (1<<TWINT)) );
+// ds1307_get_ram
+size_t ds1307_get_ram(byte address, byte *buffer, size_t length)
+{
+  // TODO: Bound checking.
 
-  // check if the start condition was successfully transmitted
-  if((TWSR & 0xF8) != TW_START){ return 1; }
+  i2c_start(DS1307_ID, I2C_WRITE);
+  i2c_write(address + 0x08);
+  i2c_start(DS1307_ID, I2C_READ);
+  size_t i;
+  for (i = 0; i < length; i++)
+    buffer[i] = i2c_read_ack();
+  i2c_stop();
 
-  // load slave address into data register
-  TWDR = ((address << 1) & 0xFE) | (config & 0x01);
-  // start transmission of address
-  TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  while( !(TWCR & (1<<TWINT)) );
-
-  // check if the device has acknowledged the READ / WRITE mode
-  byte twst = TW_STATUS & 0xF8;
-  if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
-
-  return 0;
-}
-
-void i2c_write(byte data){
-  // load data into data register
-  TWDR = data;
-  // start transmission of data
-  TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  while( !(TWCR & (1<<TWINT)) );
-
-  if ((TWSR & 0xF8) != TW_MT_DATA_ACK)
-    return;
-
-  return;
-}
-
-byte i2c_read_ack(void){
-
-  // start TWI module and acknowledge data after reception
-  TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
-  // wait for end of transmission
-  while( !(TWCR & (1<<TWINT)) );
-  // return received data from TWDR
-  return TWDR;
-}
-
-byte i2c_read_nack(void){
-
-  // start receiving without acknowledging reception
-  TWCR = (1<<TWINT) | (1<<TWEN);
-  // wait for end of transmission
-  while( !(TWCR & (1<<TWINT)) );
-  // return received data from TWDR
-  return TWDR;
-}
-
-void i2c_stop(void){
-  // transmit STOP condition
-  TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
+  return i;
 }
