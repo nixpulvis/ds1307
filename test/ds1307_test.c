@@ -1,5 +1,6 @@
 #include <avr.h>
 #include <ds1307.h>
+#include <string.h>
 
 int main(void)
 {
@@ -13,23 +14,38 @@ int main(void)
 
   // Toggle the output.
   ds1307_set_output(TRUE);
+  printf("OUT: 1\n");
   delay_ms(1000);
   ds1307_set_output(FALSE);
+  printf("OUT: 0\n");
 
   // Turn on and set the square wave generation to 4.096kHz.
   ds1307_set_square_wave_freq(0x01);
   ds1307_set_square_wave(TRUE);
-
-  // Turn on the squa
+  printf("SQR: 4.096kHz\n");
 
   // Set the RAM.
-  char *set_data1 = "This is some data.";
-  ds1307_set_ram(0x00, (byte *) set_data1, 19);
+  char *set_data = "This is some data.";
+  ds1307_set_ram(0x00, (byte *) set_data, 19);
+  printf("RAM: 0x00 -> %s\n", set_data);
 
   // Get 0x00 in RAM.
-  char get_data1[19];
-  ds1307_get_ram(0x00, (byte *) get_data1, 19);
-  printf("RAM: %s\n", get_data1);
+  char get_data[19];
+  ds1307_get_ram(0x00, (byte *) get_data, 19);
+  printf("RAM: %s\n", get_data);
+
+  // Set and get too much data.
+  size_t count;
+  memset(set_data, 0xFF, 19);
+  current_time = ds1307_get_time();
+  printf("GET: %s\n", asctime(&current_time));
+  count = ds1307_set_ram(54, (byte *) set_data, 3);
+  printf("RAM:%d: %s\n", count, set_data);
+  count = ds1307_get_ram(54, (byte *) get_data, 3);
+  get_data[18] = '\0';
+  printf("RAM:%d: %s\n", count, get_data);
+  current_time = ds1307_get_time();
+  printf("GET: %s\n", asctime(&current_time));
 
   // Turn off the device.
   ds1307_stop();

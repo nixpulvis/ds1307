@@ -154,8 +154,8 @@ struct tm ds1307_get_time(void)
 // ds1307_set_ram
 size_t ds1307_set_ram(byte address, byte *buffer, size_t length)
 {
-  // TODO: Bound checking.
-
+  if (address + length >= DS1307_RAM_SIZE)
+    return -1;
   i2c_start(DS1307_ID, I2C_WRITE);
   i2c_write(address + 0x08);
   size_t i;
@@ -168,8 +168,8 @@ size_t ds1307_set_ram(byte address, byte *buffer, size_t length)
 // ds1307_get_ram
 size_t ds1307_get_ram(byte address, byte *buffer, size_t length)
 {
-  // TODO: Bound checking.
-
+  if (address + length >= DS1307_RAM_SIZE)
+    return -1;
   i2c_start(DS1307_ID, I2C_WRITE);
   i2c_write(address + 0x08);
   i2c_start(DS1307_ID, I2C_READ);

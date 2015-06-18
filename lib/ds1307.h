@@ -5,6 +5,7 @@
 #include <time.h>
 
 #define DS1307_ID 0x68
+#define DS1307_RAM_SIZE 56
 #define DS1307_REGISTER_SECONDS 0x00
 #define DS1307_REGISTER_MINUTES 0x01
 #define DS1307_REGISTER_HOURS   0x02
