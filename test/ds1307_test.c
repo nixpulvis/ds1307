@@ -20,7 +20,7 @@ int main(void)
   printf("OUT: 0\n");
 
   // Turn on and set the square wave generation to 4.096kHz.
-  ds1307_set_square_wave_freq(0x01);
+  ds1307_set_square_wave_freq(DS1307_4KHZ);
   ds1307_set_square_wave(TRUE);
   printf("SQR: 4.096kHz\n");
 
