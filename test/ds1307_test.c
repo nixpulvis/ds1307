@@ -32,7 +32,7 @@ int main(void)
   mktime(&set_time);
 
   // Set the time.
-  if (ds1307_set_tm(set_time) == 0)
+  if (ds1307_set_time(set_time) == 0)
     printf("SET: %s\n", asctime(&set_time));
   else
     printf("ERR: Could not set RTC.\n");
@@ -40,7 +40,7 @@ int main(void)
   for (;;)
   {
     // Get the time.
-    struct tm current_time = ds1307_get_tm();
+    struct tm current_time = ds1307_get_time();
     // Print the time.
     printf("GET: %s\n", asctime(&current_time));
     delay_ms(1000);

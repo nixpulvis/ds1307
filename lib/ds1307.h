@@ -14,28 +14,11 @@
 #define DS1307_REGISTER_YEAR    0x06
 #define DS1307_REGISTER_CONTROL 0x07
 
-typedef struct
-{
-  byte second;
-  byte minute;
-  byte hour;
-  byte day;
-  byte date;
-  byte month;
-  byte year;
-} ds1307_time_t;
-
 // ds1307_set_time
-int ds1307_set_time(ds1307_time_t time);
-
-// ds1307_set_time
-int ds1307_set_tm(struct tm time);
+int ds1307_set_time(struct tm time);
 
 // ds1307_get_time
-ds1307_time_t ds1307_get_time(void);
-
-// ds1307_get_tm
-struct tm ds1307_get_tm(void);
+struct tm ds1307_get_time(void);
 
 // ds1307_set_ram
 size_t ds1307_set_ram(byte address, byte *buffer, size_t length);
@@ -43,6 +26,9 @@ size_t ds1307_set_ram(byte address, byte *buffer, size_t length);
 // ds1307_get_ram
 size_t ds1307_get_ram(byte address, byte *buffer, size_t length);
 
-// TODO: Write BCD functions in avr library.
+// TODO: Move BCD functions in avr library.
+
+byte bcd_to_dec(byte data);
+byte dec_to_bcd(byte data);
 
 #endif
