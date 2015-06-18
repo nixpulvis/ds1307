@@ -26,9 +26,4 @@ size_t ds1307_set_ram(byte address, byte *buffer, size_t length);
 // ds1307_get_ram
 size_t ds1307_get_ram(byte address, byte *buffer, size_t length);
 
-// TODO: Move BCD functions in avr library.
-
-byte bcd_to_dec(byte data);
-byte dec_to_bcd(byte data);
-
 #endif
