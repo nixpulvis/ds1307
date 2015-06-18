@@ -14,6 +14,31 @@
 #define DS1307_REGISTER_YEAR    0x06
 #define DS1307_REGISTER_CONTROL 0x07
 
+// ds1307_set_square_wave
+int ds1307_set_square_wave(bool state);
+
+// ds1307_set_square_wave_freq
+int ds1307_set_square_wave_freq(byte value);
+
+// ds1307_set_output
+//
+// The square wave generation for the device must be disabled.
+// i.e. `ds1307_set_square_wave(FALSE);
+//
+int ds1307_set_output(bool state);
+
+// ds1307_clear
+int ds1307_clear(void);
+
+// ds1307_start
+int ds1307_start(void);
+
+// ds1307_stop
+int ds1307_stop(void);
+
+// ds1307_is_stopped
+bool ds1307_is_stopped(void);
+
 // ds1307_set_time
 int ds1307_set_time(struct tm time);
 
