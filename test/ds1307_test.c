@@ -37,6 +37,7 @@ int main(void)
   // Set and get too much data.
   size_t count;
   memset(set_data, 0xFF, 19);
+  set_data[18] = 0;
   current_time = ds1307_get_time();
   printf("GET: %s\n", asctime(&current_time));
   count = ds1307_set_ram(54, (byte *) set_data, 3);
