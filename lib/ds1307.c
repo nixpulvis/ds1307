@@ -15,7 +15,7 @@ int ds1307_set_time(struct tm time)
   i2c_write(dec_to_bcd(time.tm_wday));
   i2c_write(dec_to_bcd(time.tm_mday));
   i2c_write(dec_to_bcd(time.tm_mon));
-  i2c_write(dec_to_bcd(time.tm_yday));
+  i2c_write(dec_to_bcd(time.tm_year));
   i2c_stop();
 
   return 0;
