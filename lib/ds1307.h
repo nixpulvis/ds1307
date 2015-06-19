@@ -2,6 +2,7 @@
 #define __DS1307_H__
 
 #include <avr.h>
+#include <avr/i2c.h>
 #include <time.h>
 
 // The I2C identifier for these devices.

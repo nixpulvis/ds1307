@@ -1,4 +1,5 @@
 #include <avr.h>
+#include <avr/uart.h>
 #include <ds1307.h>
 #include <string.h>
 
@@ -10,7 +11,7 @@ int main(void)
   uart_init();
 
   // Initialize the I2C bus.
-  i2c_init();
+  i2c_init(I2C_SCL_400KHZ);
 
   // Toggle the output.
   ds1307_set_output(TRUE);
