@@ -1,5 +1,5 @@
-#include <avr.h>
-#include <avr/uart.h>
+#include <avrm/i2c.h>
+#include <avrm/uart.h>
 #include <ds1307.h>
 #include <string.h>
 
