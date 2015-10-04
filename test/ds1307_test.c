@@ -10,8 +10,8 @@ int main(void)
   // Setup the UART, necessary for stdio actions.
   uart_init();
 
-  // Initialize the I2C bus.
-  i2c_init(I2C_SCL_400KHZ);
+  // Initialize the DS1307.
+  ds1307_init(I2C_SCL_100KHZ);
 
   // Toggle the output.
   ds1307_set_output(TRUE);

@@ -1,6 +1,15 @@
 #include "ds1307.h"
 
 //
+// ds1307_init implementation.
+//
+int ds1307_init(long long i2c_frequency)
+{
+  // Initialize the I2C bus.
+  return i2c_init(I2C_SCL_100KHZ);
+}
+
+//
 // ds1307_set_square_wave implementation.
 //
 int ds1307_set_square_wave(bool state)

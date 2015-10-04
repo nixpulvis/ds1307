@@ -32,6 +32,9 @@
 #define DS1307_8KHZ  0x02
 #define DS1307_16KHZ 0x03
 
+// ds1307_init
+int ds1307_init(long long i2c_frequency);
+
 // ds1307_set_square_wave
 int ds1307_set_square_wave(bool state);
 
