@@ -105,12 +105,7 @@ int ds1307_stop(void)
 //
 bool ds1307_is_stopped(void)
 {
-  i2c_start(DS1307_ID, I2C_WRITE);
-  i2c_write(DS1307_REGISTER_SECONDS);
-  i2c_start(DS1307_ID, I2C_READ);
-  bool stopped = (i2c_read_ack() >> 7);
-  i2c_stop();
-  return stopped;
+  return i2c_read_register_byte(DS1307_ID, DS1307_REGISTER_SECONDS) >> 0x07;
 }
 
 //
@@ -136,27 +131,18 @@ int ds1307_set_time(struct tm time)
 //
 struct tm ds1307_get_time(void)
 {
-  i2c_start(DS1307_ID, I2C_WRITE);
-  i2c_write(DS1307_REGISTER_SECONDS);
-  i2c_start(DS1307_ID, I2C_READ);
-  byte second = i2c_read_ack() & 0x7F;
-  byte minute = i2c_read_ack() & 0x7F;
-  byte hour   = i2c_read_ack() & 0x7F;
-  byte day    = i2c_read_ack() & 0x07;
-  byte date   = i2c_read_ack() & 0x3F;
-  byte month  = i2c_read_ack() & 0x1F;
-  byte year   = i2c_read_ack();
+  byte buffer[7];
+  i2c_read_register_bytes(DS1307_ID, DS1307_REGISTER_SECONDS, buffer, 7);
   struct tm ret =
   {
-    bcd_to_dec(second),
-    bcd_to_dec(minute),
-    bcd_to_dec(hour),
-    bcd_to_dec(date),
-    bcd_to_dec(day),
-    bcd_to_dec(month),
-    bcd_to_dec(year),
+    bcd_to_dec(buffer[0] & 0x7F),
+    bcd_to_dec(buffer[1] & 0x7F),
+    bcd_to_dec(buffer[2] & 0x7F),
+    bcd_to_dec(buffer[4] & 0x3F),
+    bcd_to_dec(buffer[3] & 0x07),
+    bcd_to_dec(buffer[5] & 0x1F),
+    bcd_to_dec(buffer[6]),
   };
-  i2c_stop();
   return ret;
 }
 
@@ -179,12 +165,6 @@ size_t ds1307_get_ram(byte address, byte *buffer, size_t length)
 {
   if (address + length >= DS1307_RAM_SIZE)
     return -1;
-  i2c_start(DS1307_ID, I2C_WRITE);
-  i2c_write(address + 0x08);
-  i2c_start(DS1307_ID, I2C_READ);
-  size_t i;
-  for (i = 0; i < length; i++)
-    buffer[i] = i2c_read_ack();
-  i2c_stop();
-  return i;
+  i2c_read_register_bytes(DS1307_ID, address + 0x08, buffer, length);
+  return length;
 }
