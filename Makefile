@@ -1,3 +1,2 @@
 LIBRARY = ds1307
-PREFIX  = /usr/local/avr
-include $(PREFIX)/Makefile
+include /usr/local/Cellar/avrm/0.0.2/Makefile
