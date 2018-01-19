@@ -13,4 +13,5 @@ install:
     - cd ~/ds1307
     - sudo make install
 
-script: sudo make test
+script: sudo make install
+
