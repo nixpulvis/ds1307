@@ -7,11 +7,9 @@ before_install:
 install:
     - sudo apt-get install -qq gcc-avr binutils-avr avr-libc
     - git clone https://github.com/nixpulvis/avrm.git ~/avrm
-    - git clone https://github.com/nixpulvis/ds1307.git ~/ds1307
     - cd ~/avrm
     - sudo make install
-    - cd ~/ds1307
-    - sudo make install
+    - cd $TRAVIS_BUILD_DIR
 
 script: sudo make install
 
