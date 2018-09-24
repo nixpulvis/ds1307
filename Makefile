@@ -1,8 +1,8 @@
 LIBRARY = ds1307
-VERSION = 0.0.3
-PREFIX = /usr/local/$(LIBRARY)/$(VERSION)
+VERSION = 0.0.4
+PREFIX = /usr/avr
 
-AVRM = /usr/local/avrm/0.0.5
+AVRM = /usr/avr/share
 DEPENDENCIES = $(PREFIX) $(AVRM)
 
 include $(AVRM)/Makefile
