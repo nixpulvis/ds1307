@@ -1,3 +1,4 @@
+#include <avrm/delay.h>
 #include <avrm/i2c.h>
 #include <avrm/uart.h>
 #include <ds1307.h>
